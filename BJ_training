@@ -1,0 +1,24 @@
+from Black_JAck import BlackJackEnv
+import numpy as np
+import gymnasium as gym
+from stable_baselines3.common.env_checker import check_env
+from stable_baselines3 import PPO
+import os
+
+env = BlackJackEnv()
+#print(check_env(env))
+
+
+
+
+
+
+models_dir='RLsideoroject/ppo_agents'
+logs_dir='RLsideoroject/logdir'
+
+ppo = PPO("MultiInputPolicy", env, device = "mps",tensorboard_log=logs_dir)
+
+timesteps=10000
+for i in range(1,40):
+    ppo.learn(total_timesteps = timesteps,reset_num_timesteps=False,tb_log_name="BJ_PPO1")
+    ppo.save(f"{models_dir}/{timesteps*i}")
